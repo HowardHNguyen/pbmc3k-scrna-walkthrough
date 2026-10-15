@@ -4,6 +4,16 @@ An end-to-end, reproducible analysis of the 10x Genomics PBMC 3k dataset (2,700 
 
 ![Annotated UMAP](figures/11_umap_cell_types.png)
 
+## Project at a glance
+
+**Goal.** Show that I can take a raw 10x single-cell count matrix and produce a defensible, reproducible cell-type map of the immune system, with every analytical choice justified.
+
+**Exploration.** I ran the standard scverse workflow (QC, normalisation, HVGs, PCA, kNN graph, Leiden, UMAP, marker-based annotation) and tested the choices that change outcomes rather than accepting defaults: QC threshold stringency (3 vs 5 MADs), clustering resolution (0.5 vs 1.0), and marker-set specificity (monocyte subsets were first confused).
+
+**Result.** 2,700 cells became 2,541 high-quality cells in 8 clusters, annotated as 8 PBMC cell types with proportions that match a healthy donor (~56% T, ~24% monocytes, ~13% B, ~5.5% NK, ~1% DC). The annotation is supported by canonical markers and is auditable through a cluster-by-marker score table.
+
+**Skills shown.** Python, scanpy/AnnData, statistical QC, graph clustering, marker-based annotation, reproducible environments, and clear scientific communication.
+
 ## Contents
 
 | Path | What it is |
@@ -74,6 +84,10 @@ Composition (~56% T, ~24% monocytes, ~13% B, ~5.5% NK, ~1% DC) matches expectati
 - Naive vs memory CD4 T is a continuum; the boundary is a resolution choice, not a hard biological line.
 - Marker-based annotation is manual and does not scale to atlases; CellTypist or scANVI reference mapping would be the next step.
 - Single donor, single sample: no batch integration needed or demonstrated.
+
+## Conclusion
+
+A standard scverse workflow, with its key thresholds checked against the data rather than defaulted, recovers the expected major immune populations from a healthy PBMC sample. The most instructive findings were methodological: MAD thresholds must be sanity-checked against the metric's actual spread, clustering resolution decides whether T/NK and monocyte subsets are separated, and score-based annotation makes labelling errors visible and fixable. Next steps are doublet and ambient RNA handling, a CellTypist cross-check, and integration across donors.
 
 ## Why this matters for immunology and drug discovery
 
